@@ -8,6 +8,17 @@ const port = process.env.PORT || 3000;
 // Use express's built-in middleware to parse JSON
 app.use(express.json());
 
+// Health check endpoint
+app.get('/healthcheck', (req, res) => {
+  const healthCheck = {
+    status: 'OK',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    message: 'Service is running normally'
+  };
+  res.status(200).json(healthCheck);
+});
+
 app.post("/sentEmail", async (req, res) => {
   console.log(req.body, "req.body"); // Log the body to see its content
   const { to, name, text } = req.body;
